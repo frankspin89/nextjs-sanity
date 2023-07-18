@@ -10,6 +10,6 @@ import Post from "@/app/_components/Post";
 
 export default function PreviewPost({ post }: { post: SanityDocument }) {
   const params = useParams();
-  const [data] = useLiveQuery(post, postQuery, params);
+  const [data] = useLiveQuery(post, postQuery, { slug: params.slug, language: params.lang });
   return <Post post={data} />;
 }

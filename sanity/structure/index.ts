@@ -98,7 +98,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType,
     //   return S.document().views([S.view.form(), preview(S, client), references(S)])
     // case 'course':
     //   return S.document().views([S.view.form(), preview(S, client), transifex(S)])
-    case 'lesson':
+    case 'post':
       return S.document().views([S.view.form(), preview(S, client)])
     // case 'legal':
     //   return S.document().views([S.view.form(), preview(S, client)])
