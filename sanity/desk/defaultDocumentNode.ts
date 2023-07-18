@@ -18,8 +18,6 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}
           .options({
     
             url: (doc: SanityDocument) => {
-              console.log('doc', doc)
-              console.log('window.location', window.location)
               return doc?.slug?.current
               ? `${window.location.origin}/api/preview?slug=${doc.slug.current}`
               : `${window.location.origin}/api/preview`

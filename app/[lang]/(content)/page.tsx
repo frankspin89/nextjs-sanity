@@ -7,18 +7,16 @@ import Posts from "@/app/_components/Posts";
 import PreviewPosts from "@/app/_components/PreviewPosts";
 import PreviewProvider from "@/app/_components/PreviewProvider";
 
-export default async function Home() {
+export default async function Home({params}: {params: {lang: string}}) {
   const preview = draftMode().isEnabled
     ? { token: process.env.SANITY_API_READ_TOKEN }
     : undefined;
-  const posts = await getCachedClient(preview)(postsQuery);
+  const posts = await getCachedClient(preview)(postsQuery, { language: params.lang });
 
   if (preview && preview.token) {
     return (
       <>
-        preview mode enabled {preview.token}
         <PreviewProvider token={preview.token}>
-          hallo
         <PreviewPosts posts={posts} />
       </PreviewProvider>
       </>
