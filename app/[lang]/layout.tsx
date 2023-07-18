@@ -1,4 +1,4 @@
-import './globals.css'
+import '../globals.css'
 import { Inter } from 'next/font/google'
 import { i18n } from '@/languages'
 import LocaleSwitcher from '@/app/_components/LocaleSwitcher'

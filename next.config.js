@@ -3,20 +3,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     
-    async redirects() {
-    return [
-          {
-        source: '/en/studio',
-        destination: '/studio/desk',
-        permanent: true,
-      },
-        {
-        source: '/nl/studio',
-        destination: '/studio/desk',
-        permanent: true,
-      }
-      ]
-    },
+    // async redirects() {
+    // return [
+    //       {
+    //     source: '/en/studio',
+    //     destination: '/studio/desk',
+    //     permanent: true,
+    //   },
+    //     {
+    //     source: '/nl/studio',
+    //     destination: '/studio/desk',
+    //     permanent: true,
+    //   }
+    //   ]
+    // },
 
     images: {
       remotePatterns: [

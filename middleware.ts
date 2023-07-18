@@ -39,7 +39,7 @@ export function middleware(request: NextRequest) {
   )
 
   // Redirect if there is no locale
-  if (pathnameIsMissingLocale) {
+  if (pathnameIsMissingLocale && pathname !== '/studio') {
     const locale = getLocale(request)
 
     // e.g. incoming request is /products
