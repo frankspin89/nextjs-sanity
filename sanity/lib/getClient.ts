@@ -14,10 +14,10 @@ const isVercelNonProduction = () => process.env.VERCEL && process.env.VERCEL_ENV
 const isNetlifyNonProduction = () => process.env.NETLIFY && process.env.CONTEXT !== 'production'
 const isLocalDevelopment = () =>
   !process.env.VERCEL && !process.env.NETLIFY && process.env.NODE_ENV !== 'production'
-
+const studioUrl = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
   const getStudioUrl = () => {
-  let webUrl = `https://nextjs-sanity-frankspin.vercel.app/studio`
+  let webUrl = studioUrl
 
   if (process.env.VERCEL) {
     return webUrl
