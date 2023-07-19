@@ -7,10 +7,12 @@ import PreviewProvider from "@/app/_components/PreviewProvider";
 import PreviewPost from "@/app/_components/PreviewPost";
 import { cachedClient } from "@/sanity/lib/client";
 import { postPathsQuery, postQuery } from "@/sanity/lib/queries";
-import { getCachedClient } from "@/sanity/lib/getClient";
+import { cachedClientFetch } from "@/sanity/lib/getClient";
 import { notFound } from "next/navigation";
 import { Metadata, ResolvingMetadata } from 'next';
 import { headers } from 'next/headers'
+import { LanguageObject } from "@/lib/types";
+import Header from "@/app/_components/Header";
 
 // Prepare Next.js to know which routes already exist
 // export async function generateStaticParams(params: { lang: string }) {
@@ -19,15 +21,16 @@ import { headers } from 'next/headers'
 //   return posts;
 // }
 
+
 export async function generateMetadata({params}: {params: {lang: string, slug: string}}): Promise<Metadata> {
-  const post = await getCachedClient()<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
+  const post = await cachedClientFetch()<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
 
   if (!post) {
     return {}
   }
 
-  const languages = {};
-  post._translations.forEach((translation) => {
+  const languages: LanguageObject = {};
+  post._translations.forEach((translation: { language: string; slug: { current: any; }; }) => {
     languages[`${translation.language}`] = `${translation.language}/${translation.slug.current}`;
   });
 
@@ -46,20 +49,33 @@ export default async function Page({params}: {params: {lang: string, slug: strin
   const preview = draftMode().isEnabled
     ? { token: process.env.SANITY_API_READ_TOKEN }
     : undefined;
+  const { isEnabled: previewEnabled } = draftMode()
   
-  const post = await getCachedClient(preview)<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
+  const post = await cachedClientFetch(previewEnabled)<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
 
-  if (!post) {
+  const translations = post?._translations.map((translation: { language: string; slug: { current: any; }; }) => ({
+    language: translation.language,
+    path: `/${translation.language}/${translation.slug.current}`,
+    title: translation?.title,
+  }));
+
+  if (!post && !previewEnabled) {
     notFound();
   }
   
   if (preview?.token) {
     return (
       <PreviewProvider token={preview.token}>
+        <Header translations={translations} currentLanguage={params.lang} />
         <PreviewPost post={post} />
       </PreviewProvider>
     ); 
   }
 
-return <Post post={post} />;
+  return (
+    <>
+      <Header translations={translations} currentLanguage={params.lang} />
+      <Post post={post} />;
+  </>
+      )
 }

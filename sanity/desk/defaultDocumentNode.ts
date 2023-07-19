@@ -19,7 +19,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}
     
             url: (doc: SanityDocument) => {
               return doc?.slug?.current
-              ? `${window.location.origin}/api/preview?slug=${doc.slug.current}`
+              ? `${window.location.origin}/api/preview?slug=${doc.slug.current}&lang=${doc.language}&id=${doc._id}`
               : `${window.location.origin}/api/preview`
             },
            })
