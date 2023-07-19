@@ -14,7 +14,7 @@ const isVercelNonProduction = () => process.env.VERCEL && process.env.VERCEL_ENV
 const isNetlifyNonProduction = () => process.env.NETLIFY && process.env.CONTEXT !== 'production'
 const isLocalDevelopment = () =>
   !process.env.VERCEL && !process.env.NETLIFY && process.env.NODE_ENV !== 'production'
-const studioUrl = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
+const studioUrl = process.env.SANITY_STUDIO_VERCEL_ENV
 
   const getStudioUrl = () => {
   let webUrl = studioUrl
