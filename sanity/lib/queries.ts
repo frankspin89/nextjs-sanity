@@ -17,6 +17,11 @@ export const postQuery = groq`*[_type == "post" && slug.current == $slug && lang
   }`;
 
 // Get all post slugs
-export const postPathsQuery = groq`*[_type == "post" && defined(slug.current)][]{
-    "params": { "slug": slug.current }
-  }`;
+// export const postPathsQuery = groq`*[_type == "post" && defined(slug.current)][]{
+//     "params": { "slug": slug.current }
+//   }`;
+
+
+export const postPathsQuery = groq`*[_type == "post" && defined(slug)]{
+  "post": slug
+}.post`

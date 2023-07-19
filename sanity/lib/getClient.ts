@@ -17,7 +17,7 @@ const isLocalDevelopment = () =>
 
 
   const getStudioUrl = () => {
-  let webUrl = `https://www.paytsoftware.com/studio `
+  let webUrl = `https://nextjs-sanity-frankspin.vercel.app/studio`
 
   if (process.env.VERCEL) {
     return webUrl
@@ -29,7 +29,7 @@ const isLocalDevelopment = () =>
   return webUrl
   }
 
-  const handleEncodeSourceMap = (props) => {
+  const handleEncodeSourceMap = (props: any) => {
   // Remove source map for label key values
   if (props.path[0] === 'labels' && props.path[2] === 'key') {
     return false

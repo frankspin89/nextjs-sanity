@@ -13,6 +13,8 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { headers } from 'next/headers'
 import { LanguageObject } from "@/lib/types";
 import Header from "@/app/_components/Header";
+import { COMMON_PARAMS, getPostsWithSlugs } from '@/sanity/lib/loaders'
+import {i18n} from '@/languages'
 
 // Prepare Next.js to know which routes already exist
 // export async function generateStaticParams(params: { lang: string }) {
@@ -20,6 +22,25 @@ import Header from "@/app/_components/Header";
 
 //   return posts;
 // }
+
+
+export async function generateStaticParams() {
+  const posts = await getPostsWithSlugs()
+
+  const params: {language: string; post: string}[] = posts
+    .map((post: { [x: string]: { current: any; }; }) =>
+      i18n.languages
+        .map((language) =>
+          post?.[language.id]?.current
+            ? {post: post[language.id].current, language: language.id}
+            : null
+        )
+        .filter(Boolean)
+    )
+    .flat()
+
+  return params
+}
 
 
 export async function generateMetadata({params}: {params: {lang: string, slug: string}}): Promise<Metadata> {
@@ -56,7 +77,7 @@ export default async function Page({params}: {params: {lang: string, slug: strin
   const translations = post?._translations.map((translation: { language: string; slug: { current: any; }; }) => ({
     language: translation.language,
     path: `/${translation.language}/${translation.slug.current}`,
-    title: translation?.title,
+    title: translation?.language, //@TODO FIX
   }));
 
   if (!post && !previewEnabled) {
