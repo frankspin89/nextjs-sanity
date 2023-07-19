@@ -10,7 +10,7 @@ export default async function resolvePreviewUrl(doc: SanityDocument, client: San
   if (process.env.VERCEL) {
     // This is the URL of the Studio deployment, not the web deployment
     baseUrl =
-      process.env.VERCEL_ENV === 'production'
+      process.env.VERCEL_ENV 
         ? `${process.env.NEXT_PUBLIC_SANITY_STUDIO_URL}`
         : // This should work, but doesn't
           // the env seems to be `undefined` in vercel
