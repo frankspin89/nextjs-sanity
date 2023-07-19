@@ -13,8 +13,8 @@ import { apiVersion, dataset, projectId, useCdn } from "../env";
 const isVercelNonProduction = () => process.env.VERCEL && process.env.VERCEL_ENV !== 'production'
 const isNetlifyNonProduction = () => process.env.NETLIFY && process.env.CONTEXT !== 'production'
 const isLocalDevelopment = () =>
-  !process.env.VERCEL && !process.env.NETLIFY && process.env.NODE_ENV !== 'production'
-const studioUrl = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
+  !process.env.VERCEL && !process.env.NETLIFY
+  const studioUrl = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
   const getStudioUrl = () => {
   let webUrl = studioUrl

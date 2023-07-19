@@ -4,7 +4,7 @@ import {SanityDocument} from 'sanity'
 import {getSecret, SECRET_ID} from './getSecret'
 
 export default async function resolvePreviewUrl(doc: SanityDocument, client: SanityClient) {
-  let baseUrl = `http://localhost:3000`
+  let baseUrl = `http://localhost:3001`
 
   // Use public vars because Studio is all client-side
   if (process.env.VERCEL) {
