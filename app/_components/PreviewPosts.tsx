@@ -3,7 +3,7 @@
 "use client";
 
 import type { SanityDocument } from "@sanity/client";
-import { useLiveQuery } from "@sanity/preview-kit";
+import { useLiveQuery } from "next-sanity/preview";
 import Posts from "@/app/_components/Posts";
 import { postsQuery } from "@/sanity/lib/queries";
 import { useParams } from "next/navigation";
@@ -15,6 +15,5 @@ export default function PreviewPosts({
   }) {
   const params = useParams();
   const [data] = useLiveQuery(posts, postsQuery, { language: params.lang });
-
   return <Posts posts={data} />;
 }
