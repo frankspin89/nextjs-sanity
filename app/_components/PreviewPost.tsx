@@ -1,5 +1,3 @@
-// ./nextjs-app/app/components/PreviewPost.tsx
-
 "use client";
 
 import { useParams } from 'next/navigation'

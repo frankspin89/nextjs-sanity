@@ -1,21 +1,9 @@
-// ./nextjs-app/app/api/preview/route.ts
 
 import { clean } from "@/app/_components/Clean";
-import { i18n } from "@/languages";
 import { previewClient } from "@/sanity/lib/getClient";
 import { SECRET_ID, getSecret } from "@/sanity/structure/getSecret";
 import { groq } from "next-sanity";
 import { draftMode } from "next/headers";
-
-// export async function GET(request: Request) {
-//   const { searchParams } = new URL(request.url)
-//   const slug = searchParams.get('slug')
-//   draftMode().enable()
-//   return new Response('Draft mode is enabled', {
-//     status: 307,
-//     headers: { Location: slug ? `/${slug}` : '/', }
-//   })
-// }
 
 function isLinkToOurDomain(url: string) {
   let suppliedUrl = new URL(url)
@@ -90,12 +78,9 @@ export async function GET(request: Request) {
       break
   }
 
-  console.log('slug', slug)
-
   if (!slug) {
     return new Response('Slug not found', {status: 401})
   }
-
 
   // Redirect to the newly created slug
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
@@ -109,5 +94,4 @@ export async function GET(request: Request) {
   draftMode().enable()
 
   return Response.redirect(redirectUrl.toString())
-
 }

@@ -1,5 +1,3 @@
-// ./nextjs-app/app/pages/index.tsx
-
 import { draftMode } from "next/headers";
 import { cachedClientFetch } from "@/sanity/lib/getClient";
 import { postsQuery } from "@/sanity/lib/queries";
@@ -16,7 +14,6 @@ export default async function Home({params}: {params: {lang: string}}) {
     const {isEnabled: previewEnabled} = draftMode()
   
   const posts = await cachedClientFetch(previewEnabled)(postsQuery, { language: params.lang });
-
 
   const translations = i18n.languages.map((lang) => {
     return {

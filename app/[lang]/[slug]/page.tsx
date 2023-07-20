@@ -1,28 +1,16 @@
-// ./nextjs-app/app/[slug]/page.tsx
-
 import { SanityDocument } from "@sanity/client";
 import { draftMode } from "next/headers";
 import Post from "@/app/_components/Post";
 import PreviewProvider from "@/app/_components/PreviewProvider";
 import PreviewPost from "@/app/_components/PreviewPost";
-import { cachedClient } from "@/sanity/lib/client";
 import { postPathsQuery, postQuery } from "@/sanity/lib/queries";
 import { cachedClientFetch } from "@/sanity/lib/getClient";
 import { notFound } from "next/navigation";
 import { Metadata, ResolvingMetadata } from 'next';
-import { headers } from 'next/headers'
 import { LanguageObject } from "@/lib/types";
 import Header from "@/app/_components/Header";
-import { COMMON_PARAMS, getPostsWithSlugs } from '@/sanity/lib/loaders'
+import { getPostsWithSlugs } from '@/sanity/lib/loaders'
 import {i18n} from '@/languages'
-
-// Prepare Next.js to know which routes already exist
-// export async function generateStaticParams(params: { lang: string }) {
-//   const posts = await cachedClient(postPathsQuery, { language: params.lang });
-
-//   return posts;
-// }
-
 
 export async function generateStaticParams() {
   const posts = await getPostsWithSlugs()
@@ -44,9 +32,13 @@ export async function generateStaticParams() {
 
 
 export async function generateMetadata({params}: {params: {lang: string, slug: string}}): Promise<Metadata> {
-  const post = await cachedClientFetch()<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
+  const post = await cachedClientFetch()<SanityDocument>(postPathsQuery, { slug: params.slug, language: params.lang });
 
   if (!post) {
+    return {}
+  }
+
+  if (!post._translations) {
     return {}
   }
 
@@ -55,7 +47,6 @@ export async function generateMetadata({params}: {params: {lang: string, slug: s
     languages[`${translation.language}`] = `${translation.language}/${translation.slug.current}`;
   });
 
-
   return {
     metadataBase: new URL(`${process.env.NEXT_PUBLIC_SITE_URL!}`),
     alternates: {
@@ -63,7 +54,6 @@ export async function generateMetadata({params}: {params: {lang: string, slug: s
       languages
     }
   }
-
 }
 
 export default async function Page({params}: {params: {lang: string, slug: string}}) {
@@ -97,6 +87,6 @@ export default async function Page({params}: {params: {lang: string, slug: strin
     <>
       <Header translations={translations} currentLanguage={params.lang} />
       <Post post={post} />;
-  </>
-      )
+    </>
+    )
 }

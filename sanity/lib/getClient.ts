@@ -1,14 +1,8 @@
 // ./nextjs-app/sanity/lib/getClient.ts
 
-import type {SanityClient} from '@sanity/preview-kit/client'
-import {createClient} from '@sanity/preview-kit/client'
-// import { createClient } from "@sanity/client";
-// import type { SanityClient } from "@sanity/client";
 import { cache } from "react";
-
+import { SanityClient, createClient} from "next-sanity";
 import { apiVersion, dataset, projectId, useCdn } from "../env";
-
-
 
 const isVercelNonProduction = () => process.env.VERCEL && process.env.VERCEL_ENV !== 'production'
 const isNetlifyNonProduction = () => process.env.NETLIFY && process.env.CONTEXT !== 'production'
@@ -63,9 +57,8 @@ export const client = createClient(baseConfig)
 
 export const cleanClient = createClient({
   ...baseConfig,
-  //encodeSourceMap: false,
+  encodeSourceMap: false,
 })
-
 
 export const previewClient = createClient({
   ...baseConfig,
@@ -77,6 +70,7 @@ export const previewClient = createClient({
 
 export function getClient({preview}: {preview?: {token: string}}): SanityClient {
   const client = createClient(baseConfig)
+
   if (preview) {
     if (!preview.token) {
       throw new Error('You must provide a token to preview drafts')
@@ -88,33 +82,3 @@ export function getClient({preview}: {preview?: {token: string}}): SanityClient 
 
 export const cachedClientFetch = (preview = false) =>
   preview ? cache(previewClient.fetch.bind(previewClient)) : cache(client.fetch.bind(client))
-
-
-// export function getClient(preview?: {token?: string}): SanityClient {
-//   const client = createClient({
-//     projectId,
-//     dataset,
-//     apiVersion,
-//     useCdn,
-//     perspective: 'published',
-//   })
-//   if (preview) {
-//     if (!preview.token) {
-//       throw new Error('You must provide a token to preview drafts')
-//     }
-//     return client.withConfig({
-//       token: preview.token,
-//       useCdn: false,
-//       ignoreBrowserTokenWarning: true,
-//       perspective: 'previewDrafts',
-//     })
-//   }
-//   return client
-// }
-
-// export const getCachedClient = (preview?: {token?: string}) => {
-//   const client = getClient(preview);
-
-//   return cache(client.fetch.bind(client));
-// };
-
