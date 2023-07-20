@@ -2,7 +2,7 @@
 
 import { cache } from "react";
 import { SanityClient, createClient} from "next-sanity";
-import { apiVersion, dataset, projectId, useCdn } from "../env";
+import { apiVersion, dataset, projectId } from "../env";
 
 const isVercelNonProduction = () => process.env.VERCEL && process.env.VERCEL_ENV !== 'production'
 const isNetlifyNonProduction = () => process.env.NETLIFY && process.env.CONTEXT !== 'production'
@@ -80,5 +80,5 @@ export function getClient({preview}: {preview?: {token: string}}): SanityClient 
   return client
 }
 
-export const cachedClientFetch = (preview = false) =>
+export const cachedClientFetch = (preview?: { token?: string }) =>
   preview ? cache(previewClient.fetch.bind(previewClient)) : cache(client.fetch.bind(client))

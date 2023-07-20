@@ -30,7 +30,6 @@ export async function generateStaticParams() {
   return params
 }
 
-
 export async function generateMetadata({params}: {params: {lang: string, slug: string}}): Promise<Metadata> {
   const post = await cachedClientFetch()<SanityDocument>(postPathsQuery, { slug: params.slug, language: params.lang });
 
@@ -38,6 +37,7 @@ export async function generateMetadata({params}: {params: {lang: string, slug: s
     return {}
   }
 
+  // TODO: return correct metadata when aren't translations
   if (!post._translations) {
     return {}
   }
@@ -60,9 +60,8 @@ export default async function Page({params}: {params: {lang: string, slug: strin
   const preview = draftMode().isEnabled
     ? { token: process.env.SANITY_API_READ_TOKEN }
     : undefined;
-  const { isEnabled: previewEnabled } = draftMode()
   
-  const post = await cachedClientFetch(previewEnabled)<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
+  const post = await cachedClientFetch(preview)<SanityDocument>(postQuery, { slug: params.slug, language: params.lang });
 
   const translations = post?._translations.map((translation: { language: string; slug: { current: any; }; }) => ({
     language: translation.language,
@@ -70,17 +69,19 @@ export default async function Page({params}: {params: {lang: string, slug: strin
     title: translation?.language, //@TODO FIX
   }));
 
-  if (!post && !previewEnabled) {
+  // don't throw 404 if preview mode is on
+  if (!post && !preview) {
     notFound();
   }
   
   if (preview?.token) {
     return (
       <PreviewProvider token={preview.token}>
+        <div className="bg-red-200 py-4 text-center px-4">Draft/preview mode on</div>
         <Header translations={translations} currentLanguage={params.lang} />
         <PreviewPost post={post} />
       </PreviewProvider>
-    ); 
+    ) 
   }
 
   return (

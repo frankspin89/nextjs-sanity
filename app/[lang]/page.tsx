@@ -11,9 +11,8 @@ export default async function Home({params}: {params: {lang: string}}) {
   const preview = draftMode().isEnabled
     ? { token: process.env.SANITY_API_READ_TOKEN }
     : undefined;
-    const {isEnabled: previewEnabled} = draftMode()
   
-  const posts = await cachedClientFetch(previewEnabled)(postsQuery, { language: params.lang });
+  const posts = await cachedClientFetch(preview)(postsQuery, { language: params.lang });
 
   const translations = i18n.languages.map((lang) => {
     return {
