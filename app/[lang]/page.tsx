@@ -6,6 +6,7 @@ import PreviewPosts from "@/app/_components/PreviewPosts";
 import PreviewProvider from "@/app/_components/PreviewProvider";
 import Header from "@/app/_components/Header";
 import { i18n } from "@/languages";
+import { ExitPreview } from "../_components/ExitPreview";
 
 export default async function Home({params}: {params: {lang: string}}) {
   const preview = draftMode().isEnabled
@@ -26,7 +27,7 @@ export default async function Home({params}: {params: {lang: string}}) {
     return (
       <>
         <PreviewProvider token={preview.token}>
-          <div className="bg-red-200 py-4 text-center px-4">Draft/preview mode on</div>
+          <ExitPreview />
           <Header translations={translations} currentLanguage={params.lang} />
           <div className="max-w-3xl mx-auto">
             <PreviewPosts posts={posts} />

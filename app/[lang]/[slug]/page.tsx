@@ -11,6 +11,7 @@ import { LanguageObject } from "@/lib/types";
 import Header from "@/app/_components/Header";
 import { getPostsWithSlugs } from '@/sanity/lib/loaders'
 import {i18n} from '@/languages'
+import { ExitPreview } from "@/app/_components/ExitPreview";
 
 export async function generateStaticParams() {
   const posts = await getPostsWithSlugs()
@@ -77,7 +78,7 @@ export default async function Page({params}: {params: {lang: string, slug: strin
   if (preview?.token) {
     return (
       <PreviewProvider token={preview.token}>
-        <div className="bg-red-200 py-4 text-center px-4">Draft/preview mode on</div>
+        <ExitPreview />
         <Header translations={translations} currentLanguage={params.lang} />
         <PreviewPost post={post} />
       </PreviewProvider>
