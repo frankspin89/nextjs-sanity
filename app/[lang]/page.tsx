@@ -25,12 +25,13 @@ export default async function Home({params}: {params: {lang: string}}) {
   if (preview && preview.token) {
     return (
       <>
-      <PreviewProvider token={preview.token}>
-        <Header translations={translations} currentLanguage={params.lang} />
-        <div className="max-w-3xl mx-auto">
-          <PreviewPosts posts={posts} />
-        </div>
-      </PreviewProvider>
+        <PreviewProvider token={preview.token}>
+          <div className="bg-red-200 py-4 text-center px-4">Draft/preview mode on</div>
+          <Header translations={translations} currentLanguage={params.lang} />
+          <div className="max-w-3xl mx-auto">
+            <PreviewPosts posts={posts} />
+          </div>
+        </PreviewProvider>
       </>
     );
   }

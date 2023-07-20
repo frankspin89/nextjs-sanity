@@ -17,7 +17,7 @@ export default function Header(props: HeaderProps) {
 
   return (
     <header className="">
-      <div className="container mx-auto flex items-center justify-between px-4 md:px-8 xl:px-16 xl:py-8">
+      <div className="container mx-auto flex items-center justify-between px-4 md:px-8 xl:px-16 py-8">
         <h1 className="mr-auto">
           <Link
             href={`/${clean(currentLanguage)}`}
