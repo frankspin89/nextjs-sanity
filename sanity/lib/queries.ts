@@ -14,7 +14,7 @@ export const postQuery = groq`*[_type == "post" && slug.current == $slug && lang
     slug,
     language
   },
-  }`;
+}`;
 
 // Get all post slugs
 // export const postPathsQuery = groq`*[_type == "post" && defined(slug.current)][]{
